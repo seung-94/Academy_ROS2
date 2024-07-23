@@ -1,0 +1,9 @@
+{
+    "cSpell.words": [
+        "imread",
+        "namewindow"
+    ],
+    "files.associations": {
+        "string": "cpp"
+    }
+}
