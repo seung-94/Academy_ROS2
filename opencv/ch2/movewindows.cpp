@@ -7,18 +7,16 @@ string folder = "/home/ha/Academy_ROS2/opencv/data/";
 
 int main ()
 {
-     Mat img;
+    Mat img;
     img = imread(folder + "lena.bmp");
     namedWindow("lena");
     imshow("lena", img);
-    int key = waitKey(0);
-    cout<< key << endl;
-    Size size;
-    size.height = 100;
-    size.width = 100;
-    destroyWindow("lena");
-    resizeWindow("lena", size);
-    imshow("lena", img);
-    waitKey(0);
+    
+    while (waitKey(0) != -1)
+    {
+        //int key = waitKey(0);
+        cout<< "lena" << endl;
+        moveWindow("lena", 50, 0);
+    }
     return 0;
 }
