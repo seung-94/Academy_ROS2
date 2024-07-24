@@ -22,6 +22,8 @@ int main()
         return -1;
     }
     cout << "Video open" << endl;
+    int fourcc = VideoWriter::fourcc('D','I','V','X');
+    VideoWriter outputVideo (folder + "output.avi", fourcc, fps, sz1);
     /*
     while(true){
         cap >> frame;
@@ -46,10 +48,12 @@ int main()
         imshow("frame", frame);
         imshow("doubleframe", doubleFrame);
         imshow("rashape", reshapeFrame);
+        outputVideo << frame;
 
         if (waitKey(delay) == 27)
             break;
     }
     cap.release();
+    outputVideo.release();
     return 0;
 }
