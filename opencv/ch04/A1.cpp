@@ -14,3 +14,17 @@
 using namespace cv;
 using namespace std;
 String folder = "/home/ha/Academy_ROS2/opencv/data/";
+
+int main ()
+{
+    Scalar white = Scalar(255, 255, 255);
+    Scalar yellow = Scalar(0, 255, 255);
+    Scalar blue = Scalar(255, 0, 0);
+    Scalar green = Scalar(0, 255, 0);
+    Scalar red = Scalar(0, 0, 255);
+    Mat img = imread(folder + "lena.bmp");
+
+    rectangle(img, Rect(50, 50, 100, 70), red, 2);
+    Mat img;
+     
+}

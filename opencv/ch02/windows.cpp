@@ -7,7 +7,7 @@ string folder = "/home/ha/Academy_ROS2/opencv/data/";
 
 int main ()
 {
-     Mat img;
+    Mat img;
     img = imread(folder + "lena.bmp");
     namedWindow("lena");
     imshow("lena", img);
