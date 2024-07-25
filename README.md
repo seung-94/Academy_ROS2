@@ -19,6 +19,7 @@ freshmea/kdta_ROS2
 
 3차시
 - opencv 관련하여 point,size 등 기본 자료형 클래스 교육
+- 주요 클래스 Point, Size, Rect, Scalar
 ---------------------------------------------------
 2024-07-24
 
@@ -35,7 +36,7 @@ freshmea/kdta_ROS2
 - 사진을 불러내거나 size를 조절 하거나 그림을 작성해서 이미지로 불러내는등의 활동을 함.
 - Vec와 scalar 클래스 관련 실습
 - 카메라와 동영상 파일 다루는 실습
-- 다양한 그리기 실습
+- 다양한 그리기 실습 (line, rectangle, circle, ellipse, polylines, fillPoly, putText 함수)
 
 오늘의 과제
 - md 작성하는 방법 찾아보기
@@ -47,14 +48,17 @@ freshmea/kdta_ROS2
 
 오전 수업
 - 어제 수업내용 복습
-- void onMouse 관련 실습
+- void onMouse 관련 실습 (mouse callback 함수 작성)
 - 키보드나 마우스의 이벤트 사용실습 및 트랙바 사용실습
 - FileStorage클래스 실습
 - 데이터 파일 여러개 합쳐서 불러내기 실습
 - 이미지의 밝기와 명암비 조절 하는 실습
 
 오후 수업
-- 
+- 오늘의 과제 코드 답 같이 짜기.
+- 이미지의 밝기와 명암비 조절 하는 실습
+- 히스토그램 펼치기 & 스트레칭 등의 실습
+- blurr, Filter, shapen 등을 실습
 
 오늘의 과제
 - 마우스를 따라다니는 사각형이 이미지클릭 했을때의 RGB값을 출력하게 하는 코드 짜기
