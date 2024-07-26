@@ -7,12 +7,11 @@ String folder = "/home/ha/Academy_ROS2/opencv/data/";
 void onMouse(int event, int x, int y, int flags, void *data);
 
 Mat src;
-bool flag = false
 Point2f srcPts[4], dstPts[4];
 
 int main()
 {
-    mydata.img = imread(folder + "card.bmp");
+    src = imread(folder + "card.bmp");
 
     namedWindow("src");
     setMouseCallback("src", onMouse);
@@ -29,44 +28,25 @@ void onMouse(int event, int x, int y, int flags, void *data)
     switch (event)
     {
     case EVENT_LBUTTONDOWN:
-        if (cnt < 4){
-            srcPts[cnt++] Point2f(x,y);
+        if (cnt < 4)
+        {
+            srcPts[cnt++] = Point2f(x, y);
+            circle(src, Point(x, y), 5, Scalar(0, 0, 255), -1);
+            imshow("src", src);
+            if (cnt == 4)
+            {
+                int w = 200, h = 300;
+                dstPts[0] = Point2f(0, 0);
+                dstPts[1] = Point2f(w - 1, 0);
+                dstPts[2] = Point2f(w - 1, h - 1);
+                dstPts[3] = Point2f(0, h - 1);
+
+                Mat M = getPerspectiveTransform(srcPts, dstPts);
+                Mat dst;
+                warpPerspective(src, dst, M, Size(w, h));
+                imshow("dst", dst);
+                cnt = 0;
+            }
         }
-        cout << "mouse left button down" << x << y << endl;
-        ptr->ptOld = Point(x, y);
-        ptr->flag = true;
-        break;
     }
-}
-
-
-
-
-
-
-
-int main()
-{
-    Mat src = imread(folder + "tekapo.bmp");
-    Point2f srcPts[4], dstPts[4];
-    srcPts[0] = Point2f(0, 0);
-    srcPts[1] = Point2f(src.cols - 1, 0);
-    srcPts[2] = Point2f(src.cols - 1, src.rows - 1);
-    srcPts[3] = Point2f(0, src.rows - 1);
-    dstPts[0] = Point2f(150, 50);
-    dstPts[1] = Point2f(src.cols - 1 - 50, 150);
-    dstPts[2] = Point2f(src.cols - 1 - 250, src.rows - 1 + 50);
-    dstPts[3] = Point2f(50, src.rows - 1 + 150);
-
-    Mat M = getPerspectiveTransform(srcPts, dstPts);
-    cout << M << endl;
-    Mat dst;
-
-    Size sz1 = src.size();
-    warpPerspective(src, dst, M, Size());
-
-    imshow("src", src);
-    imshow("dst", dst);
-    waitKey(0);
-    return 0;
 }
