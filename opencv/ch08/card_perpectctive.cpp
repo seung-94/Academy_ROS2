@@ -31,7 +31,7 @@ void onMouse(int event, int x, int y, int flags, void *data)
         if (cnt < 4)
         {
             srcPts[cnt++] = Point2f(x, y);
-            circle(src, Point(x, y), 5, Scalar(0, 0, 255), -1);
+            circle(src, Point(x, y), 1, Scalar(0, 0, 255), -1);
             imshow("src", src);
             if (cnt == 4)
             {
