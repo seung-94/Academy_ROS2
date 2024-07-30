@@ -17,6 +17,9 @@ add_executable(helloworld src/helloworld.cpp)
 add_executable(helloOpenCV src/helloOpenCV.cpp)
 target_link_libraries(helloOpenCV ${OpenCV_lIBS})
 
+add_executable(hello_publisher src/hello_publisher.cpp)
+ament_target_link_libraries(hello_publisher ${OpenCV_lIBS})
+
 #install
 install(TARGETS
   helloworld
