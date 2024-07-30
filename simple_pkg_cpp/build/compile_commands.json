@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/ha/kdta_ws/src/simple_pkg_cpp/build",
-  "command": "/usr/bin/c++   -g -Wall -Wextra -Wpedantic -o CMakeFiles/helloworld.dir/src/helloworld.cpp.o -c /home/ha/kdta_ws/src/simple_pkg_cpp/src/helloworld.cpp",
-  "file": "/home/ha/kdta_ws/src/simple_pkg_cpp/src/helloworld.cpp"
-}
-]

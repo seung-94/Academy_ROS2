@@ -14,16 +14,16 @@ find_package(OpenCV REQUIRED)
 # excutable
 add_executable(helloworld src/helloworld.cpp)
 
-add_executable(helloOpenCV2 src/helloOpenCV2.cpp)
-target_link_libraries(helloOpenCV2 ${OpenCV_lIBS})
+# add_executable(helloOpenCV2 src/helloOpenCV2.cpp)
+# target_link_libraries(helloOpenCV2 ${OpenCV_lIBS})
 
 add_executable(hello_publisher src/hello_publisher.cpp)
-ament_target_link_libraries(hello_publisher ${OpenCV_lIBS})
+ament_target_dependencies(hello_publisher rclcpp std_msgs)
 
 #install
 install(TARGETS
   helloworld
-  helloOpenCV2
+  # helloOpenCV2
   hello_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
