@@ -4,6 +4,7 @@
             "name": "Academy_ROS2",
             "includePath": [
                 "/usr/include/**"
+                
             ],
             "intelliSenseMode": "linux-gcc-x64",
             "cppStandard": "c++23",
