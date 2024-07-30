@@ -24,6 +24,7 @@ ament_target_link_libraries(hello_publisher ${OpenCV_lIBS})
 install(TARGETS
   helloworld
   helloOpenCV
+  hello_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
 
