@@ -38,6 +38,15 @@ ament_target_dependencies(hello_subscriber_class rclcpp std_msgs)
 add_executable(time_publisher_class src/time_publisher_class.cpp src/time_pub.cpp)
 ament_target_dependencies(time_publisher_class rclcpp std_msgs)
 
+add_executable(time_subscriber_class src/time_subscriber_class.cpp src/time_sub.cpp)
+ament_target_dependencies(time_subscriber_class rclcpp std_msgs)
+
+add_executable(massage_publisher_class src/massage_publisher_class.cpp src/massage_pub.cpp)
+ament_target_dependencies(massage_publisher_class rclcpp std_msgs)
+
+add_executable(massage_subscriber_class src/massage_subscriber_class.cpp src/massage_sub.cpp)
+ament_target_dependencies(massage_subscriber_class rclcpp std_msgs)
+
 #install
 install(TARGETS
   helloword
@@ -48,6 +57,9 @@ install(TARGETS
   hello_publisher_class2
   hello_subscriber_class
   time_publisher_class
+  time_subscriber_class
+  massage_publisher_class
+  massage_subscriber_class
   DESTINATION lib/${PROJECT_NAME}
 )
 
