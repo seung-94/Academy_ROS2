@@ -41,12 +41,6 @@ ament_target_dependencies(time_publisher_class rclcpp std_msgs)
 add_executable(time_subscriber_class src/time_subscriber_class.cpp src/time_sub.cpp)
 ament_target_dependencies(time_subscriber_class rclcpp std_msgs)
 
-add_executable(message_publisher_class src/message_publisher_class.cpp src/message_pub.cpp)
-ament_target_dependencies(message_publisher_class rclcpp std_msgs)
-
-add_executable(message_subscriber_class src/message_subscriber_class.cpp src/message_sub.cpp)
-ament_target_dependencies(message_subscriber_class rclcpp std_msgs)
-
 #install
 install(TARGETS
   helloword
@@ -58,8 +52,6 @@ install(TARGETS
   hello_subscriber_class
   time_publisher_class
   time_subscriber_class
-  message_publisher_class
-  message_subscriber_class
   DESTINATION lib/${PROJECT_NAME}
 )
 
