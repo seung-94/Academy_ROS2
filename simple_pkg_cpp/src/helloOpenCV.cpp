@@ -1,4 +1,4 @@
-#include "opencv2/opencv.hpp"
+/*#include "opencv2/opencv.hpp"
 
 using namespace cv;
 
@@ -9,4 +9,4 @@ int main()
     imshow("img", img);
     waitKey(0);
     return 0;
-}
+}*/
