@@ -140,5 +140,76 @@ freshmea/kdta_ROS2
       - /message2: String ( mpub -> msub2)
       - /time: Header ( tpub -> mtsub)
 ---------------------------------------------------
+2024-08-01
 
+- 복습
+- 터틀봇3 네트워크 설정
+  - 공유기 설치
+    - ssid: turtlebot3
+    - password: turtlebot3
+  - 가상환경 bridge 설정
+    - 네트워크 브릿지 클리 후 네트워크 카드 하나만 사용
+- 터틀봇3 개요
+  - 터틀봇3 소개
+  - 터틀봇3 구성
+  - 터틀봇3 시스템 구성
+- 터틀봇3 ssh 연결
+  - 터미널에서 연결
+    - `ssh ubuntu@192.169.14.XX`
+      - userid: ubuntu
+      - password: aa
+    - vscode remote ssh 연결
+      - vscode remote ssh 설정
+- 터틀봇3 브링업
+  - 터틀봇3 브링업
+    - ROS_DOMAIN_ID 확인
+    - `export TURTLEBOT3_MODEL=burger`
+    - 브링업 런치 실행 `ros2 launch turtlebot3_bringup robot.launch.py`
+- 텔레옵키 노드 실행(노트북)
+  - 텔레옵키 노드 실행
+    - `ros2 run turtlebot3_teleop teleop_keyboard`
+- gazebo
+  - gazebo 설치
+    - `sudo apt install ros-humble-gazebo-*`
+  - turtlebot3 simulation 설치(깃 클론)
+    - `cd ~/kdta_ws/src`
+    - `git clone -b humble-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git`
+    - `cd ~/turtlebot3_ws && colcon build --symlink-install`
+  - turtlebot3 simulation 실행
+    - `ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py`
+- 터틀봇3에서 빌드 후 실행
+  - move_t_sim 이동
+    - vscode 로컬과 원격을 동시 실행 후 이동
+    - 빌드 후 실행(터틀봇3)
+      - `cd ~/robot_ws`
+      - `colcon build --symlink-install`
+      - `ros2 run move_t_sim moveTurtleBot`
+- 터틀심 사각형 움직임 구현
+  - moveTurtleSim2.cpp 작성
+  - 빌드 후 실행(터틀봇3)
+    - `ros2 run move_t_sim moveTurtleSim2`
+---------------------------------------------------
+2024-08-02
+
+- 복습
+- 터틀심 사각형 움직임 구현 -> 터틀봇 용 코드로 변경
+  - moveTurtleBot2.cpp 작성
+  - 세부 알고리즘 변경
+- 사용자 인터페이스 작성
+  - srv/AddTwoInt.srv 파일 작성
+- Service 노드 추가
+  - Service server 노드
+  - Service client 노드1
+    - spin_until_done 사용
+  - Service client 노드2
+    - spin 사용 후 callback 사용
+- 파라미터
+  - 파라미터 기초
+    - ros2 param get /node_name param_name
+    - ros2 param set /node_name param_name param_value
+    - ros2 param list /node_name
+    - ros2 param dump /node_name
+    - ros2 param load /node_name
+- Launch 파일 작성
+  - topic_final 에 추가
 
