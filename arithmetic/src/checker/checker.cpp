@@ -31,6 +31,8 @@ void Checker::send_goal_total_sum(float goal_sum)
     send_goal_options.goal_response_callback = std::bind(&Checker::get_arithmetic_action_response_callback, this, _1);
     send_goal_options.feedback_callback = std::bind(&Checker::get_arithmetic_action_feedback, this, _1, _2);
     send_goal_options.result_callback = std::bind(&Checker::get_arithmetic_action_result, this, _1);
+
+    _arithmetic_action_client->async_send_goal(goal_msg, send_goal_options);
 }
 
 void Checker::get_arithmetic_action_response_callback(const GoalHandleArithmeticChecker::SharedPtr &future)
@@ -45,19 +47,17 @@ void Checker::get_arithmetic_action_response_callback(const GoalHandleArithmetic
     }
 }
 
-void Checker::get_arithmetic_action_feedback(const GoalHandleArithmeticChecker::SharedPtr &goal_handle,
+void Checker::get_arithmetic_action_feedback(const GoalHandleArithmeticChecker::SharedPtr,
                                              const std::shared_ptr<const ArithmeticChecker::Feedback> feedback)
 {
-    std::stringstream ss;
-    ss << "Next number in sequence received: ";
-    for (auto number : feedback->partial_sequence)
+    RCLCPP_INFO(get_logger(), "Action feedback:");
+    for (auto str : feedback->formula)
     {
-        ss << number << " ";
+        RCLCPP_INFO(get_logger(), str.c_str());
     }
-    RCLCPP_INFO(get_logger(), ss.str().c_str());
 }
 
-void Checker::get_arithmetic_action_result(const GoalHandleArithmeticChecker::WrappedResult &result);
+void Checker::get_arithmetic_action_result(const GoalHandleArithmeticChecker::WrappedResult &result)
 {
     switch (result.code)
     {
@@ -73,12 +73,12 @@ void Checker::get_arithmetic_action_result(const GoalHandleArithmeticChecker::Wr
         RCLCPP_INFO(get_logger(), "Goal result is unknown");
         return;
     }
-    std::stringstream ss;
-    ss << "Result received: ";
-    for (auto number : result.result->sequence)
+    RCLCPP_INFO(get_logger(), "Action succeeded!");
+    RCLCPP_INFO(get_logger(), "Result :");
+    for (auto str : result.result->all_formula)
     {
-        ss << number << " ";
+        RCLCPP_INFO(get_logger(), str.c_str());
     }
-    RCLCPP_INFO(get_logger(), ss.str().c_str());
+    RCLCPP_INFO(get_logger(), "Total sum : %f", result.result->total_sum);
     rclcpp::shutdown();
 }
