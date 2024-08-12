@@ -3,13 +3,15 @@
 
 using namespace cv;
 using namespace std;
-String folder = "/home/ha/Academy_ROS2/opencv/data/";
+String folder = "/home/aa/kdta_ROS2/opencv/data/";
 
 int main()
 {
     Mat img = imread(folder + "butterfly.jpg");
-    for (int i = 0; i < 100; i++){
-        Vec3b &pixel = img.at<Vec3b>(i,i);
+
+    for (int i = 0; i < 100; i++)
+    {
+        Vec3b &pixel = img.at<Vec3b>(i, i);
         uchar b1 = pixel[0];
         uchar g1 = pixel[0];
         uchar r1 = pixel[0];
@@ -23,7 +25,7 @@ int main()
     }
 
     imshow("img", img);
-    
     waitKey(0);
+
     return 0;
 }

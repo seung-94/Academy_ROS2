@@ -3,7 +3,7 @@
 
 using namespace cv;
 using namespace std;
-String folder = "/home/ha/Academy_ROS2/opencv/data/";
+String folder = "/home/aa/kdta_ROS2/opencv/data/";
 
 int main()
 {
@@ -15,16 +15,17 @@ int main()
     Mat lennaimg = imread(folder + "lenna.bmp");
     Mat maskSmile = imread(folder + "mask_smile.bmp", IMREAD_GRAYSCALE);
 
-    lennaimg.setTo(yellow,maskSmile);
+    lennaimg.setTo(yellow, maskSmile);
 
     imshow("img", lennaimg);
     waitKey(0);
 
-    Mat airplaneImg = imread(folder + "airplane.bmp");
-    Mat maskAirplane = imread(folder + "mask_plane.bmp", IMREAD_GRAYSCALE);
+    Mat airplanImg = imread(folder + "airplane.bmp");
+    Mat maskAirplan = imread(folder + "mask_plane.bmp", IMREAD_GRAYSCALE);
     Mat sky = imread(folder + "field.bmp");
-    
-    airplaneImg.copyTo(sky, maskAirplane);
+
+    airplanImg.copyTo(sky, maskAirplan);
+
     imshow("img", sky);
     waitKey(0);
 

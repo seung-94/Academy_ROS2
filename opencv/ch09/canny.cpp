@@ -3,7 +3,7 @@
 
 using namespace cv;
 using namespace std;
-String folder = "/home/ha/Academy_ROS2/opencv/data/";
+String folder = "/home/aa/kdta_ROS2/opencv/data/";
 
 int main()
 {
@@ -16,7 +16,7 @@ int main()
     imshow("img", img);
     imshow("dst1", dst1);
     imshow("dst2", dst2);
-
     waitKey(0);
+
     return 0;
 }

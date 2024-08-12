@@ -3,7 +3,7 @@
 
 using namespace cv;
 using namespace std;
-String folder = "/home/ha/Academy_ROS2/opencv/data/";
+String folder = "/home/aa/kdta_ROS2/opencv/data/";
 
 int main()
 {
@@ -14,7 +14,7 @@ int main()
     Canny(img, edge, 50, 150);
 
     vector<Vec2f> lines;
-    HoughLines(edge, lines, 1, CV_PI / 100, 230);
+    HoughLines(edge, lines, 1, CV_PI / 180, 255);
 
     Point pt1, pt2;
     for (size_t i = 0; i < lines.size(); i++)

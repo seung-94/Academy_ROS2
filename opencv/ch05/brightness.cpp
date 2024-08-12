@@ -3,7 +3,7 @@
 
 using namespace cv;
 using namespace std;
-String folder = "/home/ha/Academy_ROS2/opencv/data/";
+String folder = "/home/aa/kdta_ROS2/opencv/data/";
 
 int main()
 {
@@ -15,17 +15,17 @@ int main()
     Mat img = imread(folder + "lenna.bmp", IMREAD_COLOR);
     Mat imgGray = imread(folder + "lenna.bmp", IMREAD_GRAYSCALE);
 
-    Mat imgCvtgray;
-    cvtColor(img, imgCvtgray, COLOR_BGR2GRAY);
+    Mat imgCvtGray;
+    cvtColor(img, imgCvtGray, COLOR_BGR2GRAY);
     Mat imgAdd = imgGray + 50;
-    Mat imgAddcenter = imgGray + (imgGray - 125) * 1.0;
+    Mat imgAddCenter = imgGray + (imgGray - 125) * 1.0;
 
     imshow("img", img);
     imshow("gray", imgGray);
-    imshow("cvtgray", imgCvtgray);
+    imshow("cvtgray", imgCvtGray);
     imshow("imgAdd", imgAdd);
-    imshow("imgAddcenter", imgAddcenter);
-    
+    imshow("imgAddCenter", imgAddCenter);
+
     waitKey(0);
     return 0;
 }

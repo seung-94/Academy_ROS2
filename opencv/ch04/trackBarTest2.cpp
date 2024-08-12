@@ -3,9 +3,9 @@
 
 using namespace cv;
 using namespace std;
-void on_level_chage(int pos, void*data);
 
-String folder = "/home/ha/Academy_ROS2/opencv/data/";
+String folder = "/home/aa/kdta_ROS2/opencv/data/";
+void on_levle_chage(int pos, void *data);
 
 int main()
 {
@@ -18,16 +18,16 @@ int main()
     int a = 0;
 
     namedWindow("img");
-    createTrackbar("level","img",&a, 255, on_level_chage, &img);
+    createTrackbar("level", "img", &a, 255, on_levle_chage, &img);
     imshow("img", img);
     waitKey(0);
     destroyAllWindows();
     return 0;
 }
 
-void on_level_chage(int pos, void*data)
+void on_levle_chage(int pos, void *data)
 {
     Mat img = *(Mat *)data;
-    Scalar gray = Scalar (pos-125, pos-125, pos-125);
+    Scalar gray = Scalar(pos - 125, pos - 125, pos - 125);
     imshow("img", img + gray);
 }

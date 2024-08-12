@@ -3,9 +3,8 @@
 
 using namespace cv;
 using namespace std;
-String folder = "/home/ha/Academy_ROS2/opencv/data/";
+String folder = "/home/aa/kdta_ROS2/opencv/data/";
 void on_levle_chage(int pos, void *data);
-
 struct MyData
 {
     Point pt1;

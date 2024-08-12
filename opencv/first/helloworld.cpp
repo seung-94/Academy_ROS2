@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-std::string folder = "/home/ha/Academy_ROS2/opencv/first/";
+std::string folder = "/home/aa/kdta_ROS2/opencv/first/";
 
 int main()
 {
@@ -10,6 +10,6 @@ int main()
     cv::Mat img;
     img = cv::imread(folder + "lena.bmp");
     cv::imshow("image", img);
-    cv::waitKey(1500);
+    cv::waitKey(0);
     return 0;
 }

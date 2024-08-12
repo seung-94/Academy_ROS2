@@ -3,7 +3,7 @@
 
 using namespace cv;
 using namespace std;
-String folder = "/home/ha/Academy_ROS2/opencv/data/";
+String folder = "/home/aa/kdta_ROS2/opencv/data/";
 
 int main()
 {
@@ -23,6 +23,7 @@ int main()
     dstPts[2] = Point2f(src.cols - 1 + 50, src.rows - 1 + 50);
 
     Mat M = getAffineTransform(srcPts, dstPts);
+    M.at<double>(0, 2) += 100;
     cout << M << endl;
     Mat dst;
 

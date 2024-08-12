@@ -1,3 +1,0 @@
-/home/ha/Academy_ROS2/opencv/first/install/CMakeFiles/helloworld.dir
-/home/ha/Academy_ROS2/opencv/first/install/CMakeFiles/edit_cache.dir
-/home/ha/Academy_ROS2/opencv/first/install/CMakeFiles/rebuild_cache.dir

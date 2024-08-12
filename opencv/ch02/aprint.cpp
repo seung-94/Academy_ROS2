@@ -1,7 +1,7 @@
 #include <iostream>
 
-int main ()
+int main()
 {
-    std::cout << "aprint" <<std::endl;
+    std::cout << "aaaa" << std::endl;
     return 0;
 }

@@ -3,7 +3,7 @@
 
 using namespace cv;
 using namespace std;
-String folder = "/home/ha/Academy_ROS2/opencv/data/";
+String folder = "/home/aa/kdta_ROS2/opencv/data/";
 
 int main()
 {
@@ -15,14 +15,12 @@ int main()
     srcPts[3] = Point2f(0, src.rows - 1);
     dstPts[0] = Point2f(150, 50);
     dstPts[1] = Point2f(src.cols - 1 - 50, 150);
-    dstPts[2] = Point2f(src.cols - 1 - 250, src.rows - 1 + 50);
+    dstPts[2] = Point2f(src.cols - 1 - 250, src.rows - 1 - 50);
     dstPts[3] = Point2f(50, src.rows - 1 + 150);
 
     Mat M = getPerspectiveTransform(srcPts, dstPts);
     cout << M << endl;
     Mat dst;
-
-    Size sz1 = src.size();
     warpPerspective(src, dst, M, Size());
 
     imshow("src", src);
