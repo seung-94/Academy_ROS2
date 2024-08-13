@@ -34,7 +34,7 @@ public:
         RCLCPP_INFO(get_logger(), "After async...");
         if (rclcpp::spin_until_future_complete(this->get_node_base_interface(), result) == rclcpp::FutureReturnCode::SUCCESS)
         {
-            RCLCPP_INFO(get_logger(), "Result of %d + %d = %ld", _a, _b, result.get()->sum);
+            RCLCPP_INFO(get_logger(), "Result of %d + %d = %d", _a, _b, result.get()->sum);
         }
         else
         {

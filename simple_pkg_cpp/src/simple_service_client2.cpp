@@ -59,7 +59,7 @@ public:
         auto status = future.wait_for(1s);
         if (status == std::future_status::ready)
         {
-            RCLCPP_INFO(get_logger(), "Result of %d + %d = %ld", _a, _b, future.get()->sum);
+            RCLCPP_INFO(get_logger(), "Result of %d + %d = %d", _a, _b, future.get()->sum);
         }
         else
         {

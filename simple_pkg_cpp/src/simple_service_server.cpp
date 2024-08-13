@@ -22,7 +22,7 @@ private:
     rclcpp::Service<interface_example::srv::AddTwoInt>::SharedPtr _service;
     void callback(const interface_example::srv::AddTwoInt::Request::SharedPtr request, interface_example::srv::AddTwoInt::Response::SharedPtr response)
     {
-        RCLCPP_INFO(get_logger(), "Incomming Message: %ld, %ld", request->a, request->b);
+        RCLCPP_INFO(get_logger(), "Incomming Message: %d, %d", request->a, request->b);
         response->sum = request->a + request->b;
     }
 };
