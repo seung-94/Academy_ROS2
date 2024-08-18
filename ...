@@ -1,0 +1,11 @@
+#include "rclcpp/rclcpp.hpp"           // ROS2 C++ 클라이언트 라이브러리의 헤더 파일을 포함합니다.
+#include "sensor_msgs/msg/image.hpp"   // 이미지 메시지를 처리하기 위한 헤더 파일을 포함합니다.
+#include "geometry_msgs/msg/twist.hpp" // 로봇의 속도 명령(Twist 메시지)을 다루기 위한 헤더 파일을 포함합니다.
+#include "zbar.h"                      // QR 코드를 인식하기 위한 zbar 라이브러리 헤더 파일 포함
+
+// LineTracingRobot 클래스는 rclcpp::Node를 상속받아 ROS2 노드를 생성합니다.
+// ROS2 노드는 네트워크를 통해 데이터를 주고받기 위한 독립 실행형 프로그램입니다.
+class LineTracingRobot : public rclcpp::Node
+{
+public:
+    // 생성자: 클래스가 인스턴스
