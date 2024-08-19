@@ -2,6 +2,8 @@
 #include "nav2_msgs/action/follow_waypoints.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_action/rclcpp_action.hpp"
+#include "tf2/LinearMath/Matrix3x3.h"
+#include "tf2/LinearMath/Quaternion.h"
 #include <chrono>
 #include <functional>
 #include <memory>
@@ -30,15 +32,14 @@ public:
             rclcpp::shutdown();
         }
         auto goal_msg = FollowWaypoints::Goal();
-        auto pose = geometry_msgs::msg::PoseStamped();
-        pose.header.frame_id = "pose";
-        pose.header.stamp = rclcpp::Clock(RCL_ROS_TIME).now();
-        pose.pose = geometry_msgs::msg::Pose();
-        // TODO : x,y 값 바꾸기.
-        pose.pose.position.x = 1.0;
-        pose.pose.position.y = 1.0;
-        pose.pose.position.z = 0.0;
-        goal_msg.poses.push_back(pose);
+
+        goal_msg.poses.push_back(get_pose_from_xy_theta(3.7, 0.0, 1.57));
+
+        goal_msg.poses.push_back(get_pose_from_xy_theta(3.7, 1.0, 3.14));
+
+        goal_msg.poses.push_back(get_pose_from_xy_theta(0, 1.0, -1.57));
+
+        goal_msg.poses.push_back(get_pose_from_xy_theta(0, 0, 0.0));
 
         RCLCPP_INFO(get_logger(), "Sending goal request");
 
@@ -93,6 +94,25 @@ private:
             RCLCPP_INFO(get_logger(), "missed_waypoints: %d", number);
         }
         rclcpp::shutdown();
+    }
+    geometry_msgs::msg::PoseStamped get_pose_from_xy_theta(const float &x, const float &y, const float &theta)
+    {
+        auto pose = geometry_msgs::msg::PoseStamped();
+        // quaternion from yaw
+        tf2::Quaternion q;
+        q.setRPY(0, 0, theta);
+
+        pose.header.frame_id = "map";
+        pose.header.stamp = rclcpp::Clock(RCL_ROS_TIME).now();
+        pose.pose = geometry_msgs::msg::Pose();
+        pose.pose.position.x = x;
+        pose.pose.position.y = y;
+        pose.pose.position.z = 0.0;
+        pose.pose.orientation.x = q.x();
+        pose.pose.orientation.y = q.y();
+        pose.pose.orientation.z = q.z();
+        pose.pose.orientation.w = q.w();
+        return pose;
     }
 };
 

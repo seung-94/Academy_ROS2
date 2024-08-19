@@ -178,4 +178,3 @@ int main(int argc, char *argv[])
     return 0;           // 프로그램을 정상 종료합니다.
 }
 
-이게 일단 프로토타입 코드인데 미리 참고용으로 ㅎㅎ

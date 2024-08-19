@@ -17,6 +17,7 @@ find_package(rclcpp_action REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 
 include_directories(include)
@@ -53,8 +54,10 @@ add_executable(follow_wall src/follow_wall.cpp)
 ament_target_dependencies(follow_wall rclcpp geometry_msgs sensor_msgs)
 
 add_executable(waypoints_action src/waypoints_action.cpp)
-ament_target_dependencies(waypoints_action rclcpp nav2_msgs rclcpp_action)
+ament_target_dependencies(waypoints_action rclcpp nav2_msgs rclcpp_action tf2)
 
+add_executable(nav2_map_odom_tf src/nav2_map_odom_tf.cpp)
+ament_target_dependencies(nav2_map_odom_tf rclcpp nav_msgs tf2 tf2_ros)
 #install
 install(TARGETS
   moveTurtleSim
@@ -66,6 +69,8 @@ install(TARGETS
   canny_camera2
   simple_ridar
   follow_wall
+  waypoints_action
+  nav2_map_odom_tf
   DESTINATION lib/${PROJECT_NAME}
 )
 
