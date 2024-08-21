@@ -17,14 +17,7 @@ include_directories(
 
 # Add executable
 add_executable(line_following_robot src/line_following.cpp)
-ament_target_dependencies(line_following_robot rclcpp std_msgs geometry_msgs rclcpp_action)
-
-# Link dependencies
-ament_target_dependencies(line_following_robot
-  rclcpp
-  sensor_msgs
-  cv_bridge
-)
+ament_target_dependencies(line_following_robot rclcpp sensor_msgs cv_bridge OpenCV std_msgs geometry_msgs rclcpp_action)
 
 target_link_libraries(line_following_robot
   ${OpenCV_LIBRARIES}

@@ -3,30 +3,33 @@
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
 #include <geometry_msgs/msg/twist.hpp>
+#include "sensor_msgs/msg/compressed_image.hpp"
 
 class LineFollowingRobot : public rclcpp::Node
 {
 public:
     LineFollowingRobot() : Node("line_follower")
     {
-        // 첫 번째 로봇의 카메라 이미지 구독
-        image_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
-            "/camera/image_raw", 10, std::bind(&LineFollowingRobot::image_callback, this, std::placeholders::_1));
+         auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(10));
+        _sub = create_subscription<sensor_msgs::msg::CompressedImage>("/image_raw/compressed", qos_profile, std::bind(&LineFollowingRobot::sub_img, this, std::placeholders::_1));
 
-        // 두 대의 로봇에 대한 명령 발행기 생성
         cmd_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("tb3_0/cmd_vel", 10);
         cmd_pub1_ = this->create_publisher<geometry_msgs::msg::Twist>("tb3_1/cmd_vel", 10);
     }
 
 private:
-    void image_callback(const sensor_msgs::msg::Image::SharedPtr msg)
+    rclcpp::Subscription<sensor_msgs::msg::CompressedImage>::SharedPtr _sub;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub_;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub1_;
+    void sub_img(const sensor_msgs::msg::CompressedImage msg)
     {
-        // 이미지 메시지를 OpenCV 이미지로 변환
-        cv::Mat frame = cv_bridge::toCvShare(msg, "bgr8")->image;
+        cv_bridge::CvImagePtr cv_ptr;
+        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+        cv::Mat img = cv_ptr->image;
 
         // 그레이스케일로 변환
         cv::Mat gray;
-        cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
+        cv::cvtColor(img, gray, cv::COLOR_BGR2GRAY);
 
         // 양자화 적용
         int num_levels = 4;
@@ -100,15 +103,12 @@ private:
         cmd_pub1_->publish(cmd_msg_1);
     }
 
-    rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr image_sub_;
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub_;
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub1_;
 };
 
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    auto robot = std::make_shared<LineFollowingRobot>();  // 로봇 노드 객체 생성
+    auto robot = std::make_shared<LineFollowingRobot>();  // 로v봇 노드 객체 생성
     rclcpp::spin(robot);  // 노드 실행
     rclcpp::shutdown();   // 종료
     return 0;
