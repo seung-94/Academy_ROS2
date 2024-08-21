@@ -11,10 +11,16 @@ public:
         : Node(robot_name)
     {
         // 카메라 토픽 구독
+        // 카메라 토픽 구독
         image_subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
             "/camera/image_raw", 10,
             std::bind(&LineFollowingRobot::image_callback, this, std::placeholders::_1));
+            "/camera/image_raw", 10,
+            std::bind(&LineFollowingRobot::image_callback, this, std::placeholders::_1));
 
+        // 모터 제어를 위한 출판자 초기화 (예시 토픽 이름)
+        left_motor_pub_ = this->create_publisher<std_msgs::msg::Float32>("/left_motor_speed", 10);
+        right_motor_pub_ = this->create_publisher<std_msgs::msg::Float32>("/right_motor_speed", 10);
         // 모터 제어를 위한 출판자 초기화 (예시 토픽 이름)
         left_motor_pub_ = this->create_publisher<std_msgs::msg::Float32>("/left_motor_speed", 10);
         right_motor_pub_ = this->create_publisher<std_msgs::msg::Float32>("/right_motor_speed", 10);
