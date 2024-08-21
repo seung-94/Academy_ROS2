@@ -11,16 +11,10 @@ public:
         : Node(robot_name)
     {
         // 카메라 토픽 구독
-        // 카메라 토픽 구독
         image_subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
             "/camera/image_raw", 10,
             std::bind(&LineFollowingRobot::image_callback, this, std::placeholders::_1));
-            "/camera/image_raw", 10,
-            std::bind(&LineFollowingRobot::image_callback, this, std::placeholders::_1));
 
-        // 모터 제어를 위한 출판자 초기화 (예시 토픽 이름)
-        left_motor_pub_ = this->create_publisher<std_msgs::msg::Float32>("/left_motor_speed", 10);
-        right_motor_pub_ = this->create_publisher<std_msgs::msg::Float32>("/right_motor_speed", 10);
         // 모터 제어를 위한 출판자 초기화 (예시 토픽 이름)
         left_motor_pub_ = this->create_publisher<std_msgs::msg::Float32>("/left_motor_speed", 10);
         right_motor_pub_ = this->create_publisher<std_msgs::msg::Float32>("/right_motor_speed", 10);
@@ -36,9 +30,15 @@ private:
         cv::Mat gray;
         cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
 
+        // 양자화 적용
+        int num_levels = 4;
+        cv::Mat quantized;
+        cv::Mat quantized_gray = gray / (256 / num_levels);  // 이미지 값 범위를 [0, num_levels)로 조정
+        quantized_gray = quantized_gray * (256 / num_levels);  // 원래 범위로 복원
+
         // 이진화
         cv::Mat binary;
-        cv::threshold(gray, binary, 127, 255, cv::THRESH_BINARY_INV);
+        cv::threshold(quantized_gray, binary, 127, 255, cv::THRESH_BINARY_INV);
 
         // 관심 영역(ROI) 설정
         int height = binary.rows;
@@ -53,8 +53,8 @@ private:
         {
             // 가장 큰 윤곽선 찾기
             auto max_contour = std::max_element(contours.begin(), contours.end(),
-             [](const std::vector<cv::Point> &a, const std::vector<cv::Point> &b)
-              { return cv::contourArea(a) < cv::contourArea(b); });
+            [](const std::vector<cv::Point> &a, const std::vector<cv::Point> &b)
+            {return cv::contourArea(a) < cv::contourArea(b);});
 
             // 무게중심 계산
             cv::Moments M = cv::moments(*max_contour);
@@ -107,13 +107,8 @@ private:
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-
-    // 단일 로봇 객체 생성
     auto robot = std::make_shared<LineFollowingRobot>("line_following_robot");
-
-    // 노드 실행
     rclcpp::spin(robot);
-
     rclcpp::shutdown();
     return 0;
 }
