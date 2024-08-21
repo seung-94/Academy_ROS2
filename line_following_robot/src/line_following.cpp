@@ -2,22 +2,20 @@
 #include <sensor_msgs/msg/image.hpp>
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
-#include <std_msgs/msg/float32.hpp>
+#include <geometry_msgs/msg/twist.hpp>
 
 class LineFollowingRobot : public rclcpp::Node
 {
 public:
-    LineFollowingRobot(const std::string &robot_name)
-        : Node(robot_name)
+    LineFollowingRobot() : Node("line_follower")
     {
-        // 카메라 토픽 구독
-        image_subscription_ = this->create_subscription<sensor_msgs::msg::Image>(
-            "/camera/image_raw", 10,
-            std::bind(&LineFollowingRobot::image_callback, this, std::placeholders::_1));
+        // 첫 번째 로봇의 카메라 이미지 구독
+        image_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
+            "/camera/image_raw", 10, std::bind(&LineFollowingRobot::image_callback, this, std::placeholders::_1));
 
-        // 모터 제어를 위한 출판자 초기화 (예시 토픽 이름)
-        left_motor_pub_ = this->create_publisher<std_msgs::msg::Float32>("/left_motor_speed", 10);
-        right_motor_pub_ = this->create_publisher<std_msgs::msg::Float32>("/right_motor_speed", 10);
+        // 두 대의 로봇에 대한 명령 발행기 생성
+        cmd_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("tb3_0/cmd_vel", 10);
+        cmd_pub1_ = this->create_publisher<geometry_msgs::msg::Twist>("tb3_1/cmd_vel", 10);
     }
 
 private:
@@ -32,7 +30,6 @@ private:
 
         // 양자화 적용
         int num_levels = 4;
-        cv::Mat quantized;
         cv::Mat quantized_gray = gray / (256 / num_levels);  // 이미지 값 범위를 [0, num_levels)로 조정
         quantized_gray = quantized_gray * (256 / num_levels);  // 원래 범위로 복원
 
@@ -64,21 +61,21 @@ private:
             int error = cx - width / 2;
 
             // 기본 주행 명령
-            float left_speed = 50.0;
-            float right_speed = 50.0;
+            float linear_speed = 0.5;
+            float angular_speed = 0.0;
 
             // 방향 조정
             if (error > 10)  // 허용 오차를 두고 오른쪽으로 돌도록 설정
             {
-                right_speed = 40.0;
+                angular_speed = -0.5; // 오른쪽으로 회전
             }
             else if (error < -10)  // 허용 오차를 두고 왼쪽으로 돌도록 설정
             {
-                left_speed = 40.0;
+                angular_speed = 0.5;  // 왼쪽으로 회전
             }
 
-            // 모터 속도 출판
-            publish_motor_speed(left_speed, right_speed);
+            // 두 대의 로봇에 대한 속도 출판
+            publish_motor_speed(linear_speed, angular_speed);
         }
         else
         {
@@ -87,28 +84,32 @@ private:
         }
     }
 
-    void publish_motor_speed(float left_speed, float right_speed)
+    void publish_motor_speed(float linear_speed, float angular_speed)
     {
-        auto left_msg = std_msgs::msg::Float32();
-        auto right_msg = std_msgs::msg::Float32();
+        auto cmd_msg_0 = geometry_msgs::msg::Twist();
+        auto cmd_msg_1 = geometry_msgs::msg::Twist();
 
-        left_msg.data = left_speed;
-        right_msg.data = right_speed;
+        // 첫 번째 로봇에 대한 명령 설정
+        cmd_msg_0.linear.x = linear_speed;
+        cmd_msg_0.angular.z = angular_speed;
+        cmd_pub_->publish(cmd_msg_0);
 
-        left_motor_pub_->publish(left_msg);
-        right_motor_pub_->publish(right_msg);
+        // 두 번째 로봇에 대한 명령 설정
+        cmd_msg_1.linear.x = linear_speed;
+        cmd_msg_1.angular.z = angular_speed;
+        cmd_pub1_->publish(cmd_msg_1);
     }
 
-    rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr image_subscription_;
-    rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr left_motor_pub_;
-    rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr right_motor_pub_;
+    rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr image_sub_;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub_;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub1_;
 };
 
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    auto robot = std::make_shared<LineFollowingRobot>("line_following_robot");
-    rclcpp::spin(robot);
-    rclcpp::shutdown();
+    auto robot = std::make_shared<LineFollowingRobot>();  // 로봇 노드 객체 생성
+    rclcpp::spin(robot);  // 노드 실행
+    rclcpp::shutdown();   // 종료
     return 0;
 }

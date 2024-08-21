@@ -9,7 +9,7 @@ MoveTurtleBot::MoveTurtleBot()
     _odom_sub = this->create_subscription<nav_msgs::msg::Odometry>("odom", qos_profile, std::bind(&MoveTurtleBot::sub_odom_msg, this, std::placeholders::_1));
     _timer = this->create_wall_timer(30ms, std::bind(&MoveTurtleBot::publish_turtlesim_msg, this));
 }
-
+sher<geometry_msgs::msg::Twist>("cmd_vel", qos_profile);
 void MoveTurtleBot::publish_turtlesim_msg()
 {
     auto twist = geometry_msgs::msg::Twist();
