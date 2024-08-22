@@ -13,16 +13,16 @@ public:
          auto qos_profile = rclcpp::QoS(rclcpp::KeepLast(10));
         _sub = create_subscription<sensor_msgs::msg::CompressedImage>("/image_raw/compressed", qos_profile, std::bind(&LineFollowingRobot::sub_img, this, std::placeholders::_1));
 
-        cmd_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("tb3_0/cmd_vel", 10);
-        cmd_pub1_ = this->create_publisher<geometry_msgs::msg::Twist>("tb3_1/cmd_vel", 10);
+        cmd_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("/tb3_0/cmd_vel", 10);
+        cmd_pub1_ = this->create_publisher<geometry_msgs::msg::Twist>("/tb3_1/cmd_vel", 10);
     }
 
 private:
     rclcpp::Subscription<sensor_msgs::msg::CompressedImage>::SharedPtr _sub;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub_;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub1_;
-    void sub_img(const sensor_msgs::msg::CompressedImage msg)
-    {
+   void sub_img(const sensor_msgs::msg::CompressedImage msg)
+    {       
         cv_bridge::CvImagePtr cv_ptr;
         cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
         cv::Mat img = cv_ptr->image;
@@ -48,7 +48,7 @@ private:
         // 윤곽선 검출
         std::vector<std::vector<cv::Point>> contours;
         cv::findContours(roi, contours, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
-
+        
         if (!contours.empty())
         {
             // 가장 큰 윤곽선 찾기
@@ -108,7 +108,7 @@ private:
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    auto robot = std::make_shared<LineFollowingRobot>();  // 로v봇 노드 객체 생성
+    auto robot = std::make_shared<LineFollowingRobot>();  // 로봇 노드 객체 생성
     rclcpp::spin(robot);  // 노드 실행
     rclcpp::shutdown();   // 종료
     return 0;

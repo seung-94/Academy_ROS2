@@ -4,7 +4,7 @@
   <name>line_following_robot</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="freshmea@naver.com">aa</maintainer>
+  <maintainer email="sora47274@gmail.com">sora</maintainer>
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
